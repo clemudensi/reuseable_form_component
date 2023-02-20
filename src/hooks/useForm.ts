@@ -4,7 +4,7 @@ import {
   ValidationRules,
   RegisterReturnValue,
   UseFormResult
-} from '../types'
+} from '@/types'
 
 export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
   const [values, setValues] = useState<FieldProp>({});
@@ -45,6 +45,10 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
       return undefined;
     }
 
+    if (rules?.validate) {
+      return rules.validate(value);
+    }
+
     if (rules?.required && !value?.length) {
       return 'This field is required';
     }
@@ -67,10 +71,6 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
 
     if (rules?.pattern && !rules?.pattern.test(value)) {
       return 'Invalid format';
-    }
-
-    if (rules?.validate) {
-      return rules.validate(value);
     }
 
     return undefined;

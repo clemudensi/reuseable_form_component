@@ -11,7 +11,7 @@ interface ValidationRules {
   minLength?: number;
   maxLength?: number;
   pattern?: RegExp;
-  validate?: (str: string) => string;
+  validate?: (val: string | number) => string;
 }
 
 interface RegisterReturnValue<T> extends ValidationRules {
@@ -37,7 +37,7 @@ interface UseFormResult<T> {
 interface FormFieldProps extends ValidationRules {
   name?: string;
   className?: string;
-  type?: 'text' | 'number' | 'email' | 'password';
+  type: 'text' | 'number' | 'email' | 'password';
 }
 
 interface FormFields  {

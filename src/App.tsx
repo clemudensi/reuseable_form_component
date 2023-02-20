@@ -1,9 +1,9 @@
-import Login from './modules/Login';
+import { SingUpForm } from '@/modules';
 
 function App() {
   return (
-    <div className="App">
-      <Login />
+    <div className="">
+      <SingUpForm />
     </div>
   )
 }
