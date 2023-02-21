@@ -10,7 +10,7 @@ interface ValidationRules {
   max?: number;
   minLength?: number;
   maxLength?: number;
-  pattern?: RegExp;
+  pattern?: string;
   validate?: (val: string | number) => string;
 }
 

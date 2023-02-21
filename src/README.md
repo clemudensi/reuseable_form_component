@@ -11,7 +11,7 @@ yarn dev
 ```
 
 ### Instructions
-This application allows a user to easily create a form by passing some props into the the `Form` component
+This application allows a user to easily create a form by passing some props into the `Form` component
 The Form can handle different data types such as: `text, email, number and password`
 
 ### Props that can be passed
@@ -26,7 +26,7 @@ The Form can handle different data types such as: `text, email, number and passw
       validate?: (str: string | number) => string;
     }
 ```
-All the props item are standard HTML input attributes except for `validate`.
+All the form props are standard HTML input attributes except for `validate`.
 The `validate` callback is function that takes a string as argument and returns a string, it's purpose is
 to customise the validation of any input value.
 
@@ -61,3 +61,13 @@ to customise the validation of any input value.
       )
     }
 ```
+### Side notes
+* Unit test has some console errors this is due to compatibility between @testing-library/react-hooks
+and react 18. Downgrading the react app version will fix the issue.
+* Based on the way the app is designed testing the hook or a mounted component will yield similar result, hence
+only the hook is tested
+
+### Improvements
+* Covering other form types such as radio buttons, check-boxes, date etc.
+* Integration with existing form
+* Extension through usage of third party libraries such as zod and yup.`

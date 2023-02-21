@@ -8,6 +8,7 @@ const name = 'Test User';
 const email = 'user@mail.com';
 
 const onSubmit = jest.fn();
+const emailRegex = '^\\S+@\\S+\\.\\S+$'
 
 describe('useForm', () => {
   beforeEach(() => {
@@ -21,7 +22,7 @@ describe('useForm', () => {
       const nameField = result.current.register('name', { required: true });
       const emailField = result.current.register('email', {
         required: true,
-        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        pattern: emailRegex,
       });
 
       nameField.onChange({ target: { name: 'name', value: name } });
@@ -45,7 +46,7 @@ describe('useForm', () => {
       const nameField = result.current.register('name', { required: true });
       const emailField = result.current.register('email', {
         required: true,
-        pattern: /\S+@\S+\.\S+/,
+        pattern: emailRegex,
       });
 
       // fill in form data and validate fields
@@ -76,7 +77,7 @@ describe('useForm', () => {
       const nameField = result.current.register('name', { required: true });
       const emailField = result.current.register('email', {
         required: true,
-        pattern: /\S+@\S+\.\S+/,
+        pattern: emailRegex,
       });
 
       nameField.onChange({ target: { name: 'name', value: name } });

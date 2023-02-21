@@ -19,7 +19,8 @@ export const SingUpForm = () => {
             password: {name: "Password", required: true, type: 'password'},
             firsName: {name: "First Name", required: true, type: 'text', minLength: 3},
             lasName: {name: "Last Name", required: true, type: 'text'},
-            age: {name: "Age", required: true, type: 'number', min: 18, max: 85}
+            age: {name: "Age", required: true, type: 'number', min: 18, max: 85},
+            company: {name: "Company Name", type: 'text', pattern: "[Ww]ooga\\.com.*"}
           }
         }
           onSubmit={onSubmit}

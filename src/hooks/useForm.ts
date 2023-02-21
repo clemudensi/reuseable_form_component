@@ -77,8 +77,11 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
       return errorMessages.max(rules.max);
     }
 
-    if (rules?.pattern && !rules?.pattern.test(value)) {
-      return errorMessages.pattern(name);
+    if (rules?.pattern) {
+      const regex = new RegExp(rules.pattern);
+      if (!regex.test(value)) {
+        return errorMessages.pattern(name);
+      }
     }
 
     return undefined;
