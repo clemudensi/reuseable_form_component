@@ -4,11 +4,12 @@ import {
   ValidationRules,
   RegisterReturnValue,
   UseFormResult
-} from '@/types'
+} from '@/types';
+import { errorMessages } from '@/copy';
 
 export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
   const [values, setValues] = useState<FieldProp>({});
-  const [errors, setErrors] = useState({} as Record<keyof T, string>);
+  const [errors, setErrors] = useState({} as Record<keyof T, string | undefined>);
   const [isSubmit, setIsSubmit] = useState(false);
   const [validations, setValidations] = useState<{[x: string]: ValidationRules}>({})
 
@@ -18,6 +19,7 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
     if (error) {
       setErrors((prev) => ({ ...prev, [name]: error }));
     }
+    validateForm();
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,14 +30,20 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
     }
   };
 
-  const handleSubmit = (callback: (data: T) => void) => (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (callback: (data: T) => void, isReset?: boolean) => (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     validateForm();
-    callback(values as T);
+    isSubmit && callback(values as T);
+    isReset && reset();
   };
 
   const reset = () => {
-    setValues({});
+    Object.keys(values).forEach((name) => {
+      setValues(prevState => ({
+        ...prevState,
+        [name]: ''
+      }))
+    });
   };
 
   const validateField = (name: string, value: string): string | undefined => {
@@ -50,34 +58,34 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
     }
 
     if (rules?.required && !value?.length) {
-      return 'This field is required';
+      return errorMessages.required;
     }
 
     if (rules?.minLength && value.length < rules?.minLength) {
-      return `This field must be at least ${rules.minLength} characters long`;
+      return errorMessages.minLength(rules.minLength);
     }
 
     if (rules?.maxLength && value.length > rules?.maxLength) {
-      return `This field must be no more than ${rules.maxLength} characters long`;
+      return errorMessages.maxLength(rules.maxLength);
     }
 
     if (rules?.min && Number(value) < rules?.min) {
-      return `This field must be at least ${rules.min}`;
+      return errorMessages.min(rules.min);
     }
 
     if (rules?.max && Number(value) > rules?.max) {
-      return `This field must be no more than ${rules.max}`;
+      return errorMessages.max(rules.max);
     }
 
     if (rules?.pattern && !rules?.pattern.test(value)) {
-      return 'Invalid format';
+      return errorMessages.pattern(name);
     }
 
     return undefined;
   };
 
   const validateForm = () => {
-    Object.keys(errors).forEach((fieldName: string) => {
+    Object.keys(values).forEach((fieldName: string) => {
       const error = validateField(fieldName, values[fieldName]);
       setErrors(prevState => ({
         ...prevState,
@@ -87,12 +95,12 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
   };
 
   useEffect(() => {
-    const isValid = Object.values(errors).filter(filter => filter).length > 0;
+    const isValid = Object.values(errors).filter(filter => filter).length === 0;
     setIsSubmit(isValid);
   }, [errors]);
 
   const register = (
-    name: keyof T,
+    name: string,
     validationRules?: ValidationRules,
   ): RegisterReturnValue<T> => {
 
@@ -121,6 +129,7 @@ export const useForm = <T extends FieldProp>(): UseFormResult<T> => {
     register,
     handleSubmit,
     reset,
-    isSubmit
+    isSubmit,
+    validateForm
   }
 }

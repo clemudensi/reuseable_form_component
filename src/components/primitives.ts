@@ -19,6 +19,7 @@ export const Button = tw.button`
   text-sm w-full sm:w-auto px-5 py-2.5 
   text-center dark:bg-blue-600 
   dark:hover:bg-blue-700 dark:focus:ring-blue-800
+  disabled:opacity-50
 `;
 
 export const CenterItems = styled.span<{

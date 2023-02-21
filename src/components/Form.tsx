@@ -7,7 +7,7 @@ const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
   const { register, errors, handleSubmit, isSubmit } = useForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, true)}>
       {Object.entries(fields).map(([name, props]) => (
         <Styled.FormInputContainer key={name}>
           <Styled.FormInputLabel htmlFor={name}>{props.name}</Styled.FormInputLabel>
@@ -26,11 +26,14 @@ const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
             className={props.className}
             autoComplete="true"
           />
-          {!(errors) || errors[name] && <Styled.AlertText fontSize={'0.75rem'} role="alert">{errors[name]}</Styled.AlertText>}
+          {!(errors) || errors[name] &&
+            <Styled.AlertText fontSize={'0.75rem'} role="alert">
+              {errors[name]}
+            </Styled.AlertText>}
         </Styled.FormInputContainer>
       ))}
       <Styled.CenterItems>
-        <Styled.Button type="submit" disabled={isSubmit}>Submit</Styled.Button>
+        <Styled.Button type="submit" disabled={!isSubmit}>Submit</Styled.Button>
       </Styled.CenterItems>
     </form>
   );

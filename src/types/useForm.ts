@@ -24,14 +24,15 @@ interface RegisterReturnValue<T> extends ValidationRules {
 
 interface UseFormResult<T> {
   register: (
-    name: keyof T,
+    name: string,
     validationRules?: ValidationRules,
   ) => any;
-  handleSubmit: (callback: (data: T) => void) => (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (callback: (data: T) => void, isReset?: boolean) => (event: React.FormEvent<HTMLFormElement>) => void;
   values?: FieldProp;
   reset?: () => void;
-  errors?: { [key: string]: string };
+  errors: { [key: string]: string | undefined };
   isSubmit?: boolean;
+  validateForm: () => void;
 }
 
 interface FormFieldProps extends ValidationRules {

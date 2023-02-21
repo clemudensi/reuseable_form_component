@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
@@ -14,6 +14,7 @@ export default defineConfig({
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
   plugins: [
+    // @ts-ignore
     react({
       babel: {
         plugins: [
@@ -39,5 +40,10 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, '/src'),
     },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './setup.js',
   }
 })

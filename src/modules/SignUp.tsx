@@ -15,7 +15,7 @@ export const SingUpForm = () => {
       <Styled.CardContainer>
         <Form fields={
           {
-            email: { name: "Email", required: true, type: 'email'},
+            email: {name: "Email", required: true, type: 'email'},
             password: {name: "Password", required: true, type: 'password'},
             firsName: {name: "First Name", required: true, type: 'text', minLength: 3},
             lasName: {name: "Last Name", required: true, type: 'text'},
